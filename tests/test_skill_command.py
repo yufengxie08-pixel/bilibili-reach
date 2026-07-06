@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""Tests for 'agent-reach skill' command and _install_skill / _uninstall_skill."""
+"""Tests for 'bilibili-reach skill' command and _install_skill / _uninstall_skill."""
 
 import importlib.resources
 import os
@@ -53,7 +53,7 @@ class TestSkillCommand(unittest.TestCase):
         """_uninstall_skill should remove skill directories."""
         with tempfile.TemporaryDirectory() as tmpdir:
             # Create a fake skill installation
-            skill_path = os.path.join(tmpdir, ".openclaw", "skills", "agent-reach")
+            skill_path = os.path.join(tmpdir, ".openclaw", "skills", "bilibili-reach")
             os.makedirs(skill_path)
             with open(os.path.join(skill_path, "SKILL.md"), "w", encoding="utf-8") as f:
                 f.write("test")
@@ -72,9 +72,9 @@ class TestSkillCommand(unittest.TestCase):
             self.assertFalse(os.path.exists(skill_path))
 
     def test_install_creates_dir_if_parent_exists(self):
-        """_install_skill should create agent-reach dir inside existing skill dir."""
+        """_install_skill should create bilibili-reach dir inside existing skill dir."""
         with tempfile.TemporaryDirectory() as tmpdir:
-            # Create the .openclaw/skills parent but not agent-reach subdir
+            # Create the .openclaw/skills parent but not bilibili-reach subdir
             skill_parent = os.path.join(tmpdir, ".openclaw", "skills")
             os.makedirs(skill_parent)
 
@@ -87,7 +87,7 @@ class TestSkillCommand(unittest.TestCase):
                 with patch.dict(os.environ, env, clear=True):
                     _install_skill()
 
-            target = os.path.join(skill_parent, "agent-reach", "SKILL.md")
+            target = os.path.join(skill_parent, "bilibili-reach", "SKILL.md")
             self.assertTrue(os.path.exists(target))
             with open(target, encoding="utf-8") as f:
                 content = f.read()
@@ -109,7 +109,7 @@ class TestSkillCommand(unittest.TestCase):
                 with patch.dict(os.environ, env, clear=True):
                     _install_skill()
 
-            target = os.path.join(skill_parent, "agent-reach", "SKILL.md")
+            target = os.path.join(skill_parent, "bilibili-reach", "SKILL.md")
             self.assertTrue(os.path.exists(target))
             with open(target, encoding="utf-8") as f:
                 content = f.read()
@@ -117,7 +117,7 @@ class TestSkillCommand(unittest.TestCase):
             self.assertIn("Xiaoyuzhou Podcast, LinkedIn", content)
             self.assertNotIn("搜推特", content)
             self.assertTrue(
-                os.path.exists(os.path.join(skill_parent, "agent-reach", "references"))
+                os.path.exists(os.path.join(skill_parent, "bilibili-reach", "references"))
             )
 
 

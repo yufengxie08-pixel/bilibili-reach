@@ -17,7 +17,7 @@ from agent_reach.config import Config
 class TestCLI:
     def test_version(self, capsys):
         with pytest.raises(SystemExit) as exc_info:
-            with patch("sys.argv", ["agent-reach", "version"]):
+            with patch("sys.argv", ["bilibili-reach", "version"]):
                 main()
         assert exc_info.value.code == 0
         captured = capsys.readouterr()
@@ -25,19 +25,19 @@ class TestCLI:
 
     def test_no_command_shows_help(self, capsys):
         with pytest.raises(SystemExit) as exc_info:
-            with patch("sys.argv", ["agent-reach"]):
+            with patch("sys.argv", ["bilibili-reach"]):
                 main()
         assert exc_info.value.code == 0
 
     def test_doctor_runs(self, capsys):
-        with patch("sys.argv", ["agent-reach", "doctor"]):
+        with patch("sys.argv", ["bilibili-reach", "doctor"]):
             main()
         captured = capsys.readouterr()
         assert "Bilibili Reach" in captured.out
         assert "✅" in captured.out
 
     def test_doctor_preserves_existing_skill_install(self, monkeypatch, tmp_path, capsys):
-        skill_dir = tmp_path / ".agents" / "skills" / "agent-reach"
+        skill_dir = tmp_path / ".agents" / "skills" / "bilibili-reach"
         skill_dir.mkdir(parents=True)
         skill_file = skill_dir / "SKILL.md"
         custom_content = "# custom Bilibili Reach skill\n"
@@ -48,7 +48,7 @@ class TestCLI:
             "expanduser",
             lambda p: p.replace("~", str(tmp_path)),
         )
-        config_dir = tmp_path / ".agent-reach"
+        config_dir = tmp_path / ".bilibili-reach"
         monkeypatch.setattr(Config, "CONFIG_DIR", config_dir)
         monkeypatch.setattr(Config, "CONFIG_FILE", config_dir / "config.yaml")
         monkeypatch.setattr("agent_reach.doctor.check_all", lambda config: {})
@@ -63,7 +63,7 @@ class TestCLI:
 
     def test_transcribe_command_prints_text(self, capsys):
         with patch("agent_reach.transcribe.transcribe", return_value="hello transcript"):
-            with patch("sys.argv", ["agent-reach", "transcribe", "audio.mp3"]):
+            with patch("sys.argv", ["bilibili-reach", "transcribe", "audio.mp3"]):
                 main()
         captured = capsys.readouterr()
         assert "hello transcript" in captured.out
@@ -71,7 +71,7 @@ class TestCLI:
     def test_transcribe_command_writes_output_file(self, capsys, tmp_path):
         out_file = tmp_path / "t.txt"
         with patch("agent_reach.transcribe.transcribe", return_value="saved text"):
-            with patch("sys.argv", ["agent-reach", "transcribe", "audio.mp3", "-o", str(out_file)]):
+            with patch("sys.argv", ["bilibili-reach", "transcribe", "audio.mp3", "-o", str(out_file)]):
                 main()
         assert out_file.read_text(encoding="utf-8").strip() == "saved text"
         assert "Transcript written" in capsys.readouterr().out
@@ -84,7 +84,7 @@ class TestCLI:
             captured["port"] = port
 
         with patch("agent_reach.webapp.run_web_app", side_effect=fake_run_web_app):
-            with patch("sys.argv", ["agent-reach", "web", "--host", "0.0.0.0", "--port", "9000"]):
+            with patch("sys.argv", ["bilibili-reach", "web", "--host", "0.0.0.0", "--port", "9000"]):
                 main()
 
         assert captured == {"host": "0.0.0.0", "port": 9000}

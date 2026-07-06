@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
-"""Configuration management for Agent Reach.
+"""Configuration management for Bilibili Reach.
 
-Stores settings in ~/.agent-reach/config.yaml.
+Stores settings in ~/.bilibili-reach/config.yaml.
 Auto-creates directory on first use.
 """
 
@@ -15,10 +15,12 @@ from agent_reach.utils.paths import make_private_dir
 
 
 class Config:
-    """Manages Agent Reach configuration."""
+    """Manages Bilibili Reach configuration."""
 
-    CONFIG_DIR = Path.home() / ".agent-reach"
+    CONFIG_DIR = Path.home() / ".bilibili-reach"
     CONFIG_FILE = CONFIG_DIR / "config.yaml"
+    LEGACY_CONFIG_DIR = Path.home() / ".agent-reach"
+    LEGACY_CONFIG_FILE = LEGACY_CONFIG_DIR / "config.yaml"
 
     # Feature → required config keys
     FEATURE_REQUIREMENTS = {
@@ -30,7 +32,14 @@ class Config:
     }
 
     def __init__(self, config_path: Optional[Path] = None):
-        self.config_path = Path(config_path) if config_path else self.CONFIG_FILE
+        if config_path:
+            self.config_path = Path(config_path)
+        elif self.CONFIG_FILE.exists():
+            self.config_path = self.CONFIG_FILE
+        elif self.LEGACY_CONFIG_FILE.exists():
+            self.config_path = self.LEGACY_CONFIG_FILE
+        else:
+            self.config_path = self.CONFIG_FILE
         self.config_dir = self.config_path.parent
         self.data: dict = {}
         self._ensure_dir()

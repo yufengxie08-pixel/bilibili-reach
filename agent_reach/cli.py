@@ -95,11 +95,11 @@ def main():
                           help="Output machine-readable JSON instead of the text report")
 
     # ── uninstall ──
-    p_uninstall = sub.add_parser("uninstall", help="Remove all Agent Reach config, tokens, and skill files")
+    p_uninstall = sub.add_parser("uninstall", help="Remove all Bilibili Reach config, tokens, and skill files")
     p_uninstall.add_argument("--dry-run", action="store_true",
                              help="Show what would be removed without making any changes")
     p_uninstall.add_argument("--keep-config", action="store_true",
-                             help="Remove skill files only, keep ~/.agent-reach/ config and tokens")
+                             help="Remove skill files only, keep ~/.bilibili-reach/ config and tokens")
 
     # ── skill ──
     p_skill = sub.add_parser("skill", help="Manage agent skill registration")
@@ -186,11 +186,11 @@ def _cmd_install(args):
 
     config = Config()
     print()
-    print("Agent Reach Installer")
+    print("Bilibili Reach Installer")
     print("=" * 40)
 
     # Ensure tools directory exists (for upstream tool repos)
-    tools_dir = os.path.expanduser("~/.agent-reach/tools")
+    tools_dir = os.path.expanduser("~/.bilibili-reach/tools")
     os.makedirs(tools_dir, exist_ok=True)
 
     if dry_run:
@@ -321,7 +321,7 @@ def _cmd_install(args):
         print()
         print("Tip: 部分平台对服务器 IP 有风控。")
         print("   Reddit 必须登录态（rdt-cli + Cookie，见 doctor 提示），中国大陆网络还需代理。")
-        print("   保存代理供 Agent 使用：agent-reach configure proxy http://user:pass@ip:port")
+        print("   保存代理供 Agent 使用：bilibili-reach configure proxy http://user:pass@ip:port")
         print("   Cheap option: https://www.webshare.io ($1/month)")
 
     # Test channels
@@ -346,12 +346,12 @@ def _cmd_install(args):
             # First install — hint about optional channels
             print()
             print("More channels available! Use --channels to install:")
-            print("   agent-reach install --channels=twitter,xiaohongshu,reddit,facebook,instagram,...")
-            print("   agent-reach install --channels=all  (install everything)")
+            print("   bilibili-reach install --channels=twitter,xiaohongshu,reddit,facebook,instagram,...")
+            print("   bilibili-reach install --channels=all  (install everything)")
 
         # Star reminder
         print()
-        print("如果 Agent Reach 帮到了你，给个 Star 让更多人发现它吧：")
+        print("如果 Bilibili Reach 帮到了你，给个 Star 让更多人发现它吧：")
         print("   使用你自己的仓库地址或本地维护文档")
         print("   只需一秒，对独立开发者意义很大。谢谢！")
     else:
@@ -360,7 +360,7 @@ def _cmd_install(args):
 
 
 def _install_skill(force: bool = True):
-    """Install Agent Reach as an agent skill (OpenClaw / Claude Code / .agents)."""
+    """Install Bilibili Reach as an agent skill (OpenClaw / Claude Code / .agents)."""
     import os
     import shutil
     import importlib.resources
@@ -446,7 +446,7 @@ def _install_skill(force: bool = True):
     installed = False
     for skill_dir in skill_dirs:
         if os.path.isdir(skill_dir):
-            target = os.path.join(skill_dir, "agent-reach")
+            target = os.path.join(skill_dir, "bilibili-reach")
             status = _copy_skill_dir(target)
             if status:
                 platform_name = "Agent" if ".agents" in skill_dir else "OpenClaw" if "openclaw" in skill_dir else "Claude Code"
@@ -458,7 +458,7 @@ def _install_skill(force: bool = True):
 
     if not installed:
         # No known skill directory found — create for .agents by default
-        target = os.path.expanduser("~/.agents/skills/agent-reach")
+        target = os.path.expanduser("~/.agents/skills/bilibili-reach")
         os.makedirs(os.path.dirname(target), exist_ok=True)
         status = _copy_skill_dir(target)
         if status == "preserved":
@@ -475,9 +475,12 @@ def _uninstall_skill():
     import shutil
 
     skill_dirs = [
-        ("~/.openclaw/skills/agent-reach", "OpenClaw"),
-        ("~/.claude/skills/agent-reach", "Claude Code"),
-        ("~/.agents/skills/agent-reach", "Agent"),
+        ("~/.openclaw/skills/bilibili-reach", "OpenClaw"),
+        ("~/.claude/skills/bilibili-reach", "Claude Code"),
+        ("~/.agents/skills/bilibili-reach", "Agent"),
+        ("~/.openclaw/skills/agent-reach", "OpenClaw (legacy)"),
+        ("~/.claude/skills/agent-reach", "Claude Code (legacy)"),
+        ("~/.agents/skills/agent-reach", "Agent (legacy)"),
     ]
 
     # Also check OPENCLAW_HOME
@@ -485,7 +488,8 @@ def _uninstall_skill():
     if openclaw_home:
         skill_dirs.insert(
             0,
-            (os.path.join(openclaw_home, ".openclaw", "skills", "agent-reach"), "OpenClaw"),
+            (os.path.join(openclaw_home, ".openclaw", "skills", "bilibili-reach"), "OpenClaw"),
+            (os.path.join(openclaw_home, ".openclaw", "skills", "agent-reach"), "OpenClaw (legacy)"),
         )
 
     removed = False
@@ -671,7 +675,7 @@ def _install_xiaoyuzhou_deps():
     config = Config()
     print("Setting up Xiaoyuzhou podcast transcription...")
 
-    tools_dir = os.path.expanduser("~/.agent-reach/tools/xiaoyuzhou")
+    tools_dir = os.path.expanduser("~/.bilibili-reach/tools/xiaoyuzhou")
     script_dst = os.path.join(tools_dir, "transcribe.sh")
 
     if os.path.isfile(script_dst):
@@ -703,7 +707,7 @@ def _install_xiaoyuzhou_deps():
         print("  ✅ Groq API key configured")
     else:
         print("  -- Groq API key not set. Get free key at https://console.groq.com")
-        print("     Then run: agent-reach configure groq-key gsk_xxxxx")
+        print("     Then run: bilibili-reach configure groq-key gsk_xxxxx")
 
 
 def _install_twitter_deps():
@@ -744,10 +748,10 @@ def _install_xhs_deps():
     if _detect_environment() == "server":
         print("  服务器环境推荐 xiaohongshu-mcp（自带无头浏览器，扫码登录）：")
         print("    1. 下载 binary：https://github.com/xpzouying/xiaohongshu-mcp/releases")
-        print("       （建议放到 ~/.agent-reach/tools/ 下）")
+        print("       （建议放到 ~/.bilibili-reach/tools/ 下）")
         print("    2. 启动服务（首次运行会下载约 150MB 浏览器，请等待完成）")
         print("    3. 扫码登录后接入：mcporter config add xiaohongshu http://localhost:18060/mcp")
-        print("    4. 验证：agent-reach doctor")
+        print("    4. 验证：bilibili-reach doctor")
         return
 
     _install_opencli_deps()
@@ -1050,15 +1054,15 @@ def _cmd_configure(args):
 
         print()
         if found_any:
-            print("✅ Cookies configured! Run `agent-reach doctor` to see updated status.")
+            print("✅ Cookies configured! Run `bilibili-reach doctor` to see updated status.")
         else:
             print(f"No cookies found. Make sure you're logged into the platforms in {browser}.")
         return
 
     # ── Manual configure ──
     if not args.key:
-        print("Usage: agent-reach configure <key> <value>")
-        print("   or: agent-reach configure --from-browser chrome")
+        print("Usage: bilibili-reach configure <key> <value>")
+        print("   or: bilibili-reach configure --from-browser chrome")
         return
 
     value = " ".join(args.value) if args.value else ""
@@ -1115,8 +1119,8 @@ def _cmd_configure(args):
         else:
             print("[X] Could not find auth_token and ct0 in your input.")
             print("   Accepted formats:")
-            print("   1. agent-reach configure twitter-cookies AUTH_TOKEN CT0")
-            print('   2. agent-reach configure twitter-cookies "auth_token=xxx; ct0=yyy; ..."')
+            print("   1. bilibili-reach configure twitter-cookies AUTH_TOKEN CT0")
+            print('   2. bilibili-reach configure twitter-cookies "auth_token=xxx; ct0=yyy; ..."')
 
     elif args.key == "youtube-cookies":
         config.set("youtube_cookies_from", value)
@@ -1204,7 +1208,7 @@ def _configure_xhs_cookies(value):
     value = value.strip()
     if not value:
         print("[X] Missing cookie value.")
-        print("   Usage: agent-reach configure xhs-cookies '<cookie JSON or header string>'")
+        print("   Usage: bilibili-reach configure xhs-cookies '<cookie JSON or header string>'")
         return
 
     # Detect format and parse
@@ -1278,7 +1282,7 @@ def _configure_xhs_cookies(value):
 
         from agent_reach.utils.paths import make_private_dir
 
-        cookie_dir = make_private_dir(os.path.expanduser("~/.agent-reach"))
+        cookie_dir = make_private_dir(os.path.expanduser("~/.bilibili-reach"))
         cookie_path = cookie_dir / "xhs-cookies.json"
         try:
             fd = os.open(
@@ -1387,7 +1391,7 @@ def _configure_xhs_cookies(value):
 
 
 def _cmd_uninstall(args):
-    """Remove all Agent Reach config, tokens, and skill files."""
+    """Remove all Bilibili Reach config, tokens, and skill files."""
     import shutil
     import subprocess
 
@@ -1395,7 +1399,7 @@ def _cmd_uninstall(args):
     keep_config = args.keep_config
 
     print()
-    print("Agent Reach Uninstaller")
+    print("Bilibili Reach Uninstaller")
     print("=" * 40)
 
     if dry_run:
@@ -1404,8 +1408,8 @@ def _cmd_uninstall(args):
 
     removed_any = False
 
-    # ── 1. Config directory (~/.agent-reach/) ──
-    config_dir = os.path.expanduser("~/.agent-reach")
+    # ── 1. Config directory (~/.bilibili-reach/) ──
+    config_dir = os.path.expanduser("~/.bilibili-reach")
     if not keep_config:
         if os.path.isdir(config_dir):
             if dry_run:
@@ -1425,9 +1429,12 @@ def _cmd_uninstall(args):
 
     # ── 2. Skill files ──
     skill_dirs = [
-        ("~/.openclaw/skills/agent-reach", "OpenClaw"),
-        ("~/.claude/skills/agent-reach", "Claude Code"),
-        ("~/.agents/skills/agent-reach", "Agent"),
+        ("~/.openclaw/skills/bilibili-reach", "OpenClaw"),
+        ("~/.claude/skills/bilibili-reach", "Claude Code"),
+        ("~/.agents/skills/bilibili-reach", "Agent"),
+        ("~/.openclaw/skills/agent-reach", "OpenClaw (legacy)"),
+        ("~/.claude/skills/agent-reach", "Claude Code (legacy)"),
+        ("~/.agents/skills/agent-reach", "Agent (legacy)"),
     ]
 
     for skill_path_template, platform_name in skill_dirs:
@@ -1473,15 +1480,15 @@ def _cmd_uninstall(args):
         print("Run without --dry-run to actually remove the above.")
     else:
         if removed_any:
-            print("Agent Reach data removed.")
+            print("Bilibili Reach data removed.")
         else:
             print("Nothing to remove — already clean.")
 
     print()
-    print("Optional: remove the Agent Reach Python package itself:")
-    print("  pip uninstall agent-reach")
+    print("Optional: remove the Bilibili Reach Python package itself:")
+    print("  pip uninstall bilibili-reach")
     print()
-    print("Optional: remove tools installed by Agent Reach:")
+    print("Optional: remove tools installed by Bilibili Reach:")
     print("  npm uninstall -g mcporter")
     print("  pipx uninstall twitter-cli")
     print("  npm uninstall -g undici")
@@ -1512,7 +1519,7 @@ def _cmd_setup():
 
     config = Config()
     print()
-    print("Agent Reach Setup")
+    print("Bilibili Reach Setup")
     print("=" * 40)
     print()
 
@@ -1593,7 +1600,7 @@ def _cmd_setup():
     # Summary
     print("=" * 40)
     print(f"✅ 配置已保存到 {config.config_path}")
-    print("运行 agent-reach doctor 查看完整状态")
+    print("运行 bilibili-reach doctor 查看完整状态")
     print()
 
 
@@ -1694,7 +1701,7 @@ _UPDATE_INSTRUCTIONS = (
     "更新方式：\n"
     "  1. 拉取你自己的仓库最新代码\n"
     "  2. 重新安装或同步依赖\n"
-    "  3. 运行 agent-reach doctor 确认状态"
+    "  3. 运行 bilibili-reach doctor 确认状态"
 )
 
 
@@ -1757,10 +1764,10 @@ def _cmd_watch():
     release_body = ""
     # Output
     if not issues and not update_available:
-        print(f"Agent Reach: 全部正常 ({ok}/{total} 渠道可用，v{__version__} 已是最新)")
+        print(f"Bilibili Reach: 全部正常 ({ok}/{total} 渠道可用，v{__version__} 已是最新)")
         return
 
-    print(f"Agent Reach 监控报告")
+    print(f"Bilibili Reach 监控报告")
     print(f"=" * 40)
     print(f"版本: v{__version__}  |  渠道: {ok}/{total}")
 
