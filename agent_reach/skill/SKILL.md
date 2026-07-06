@@ -11,7 +11,7 @@ description: >
   雪球/股票行情, RSS feeds, or any web URL.
 
   15 platforms, multi-backend routing (OpenCLI / per-platform CLIs / APIs).
-  Zero config for 6 channels. Run `agent-reach doctor --json` to see which
+  Zero config for 6 channels. Run `bilibili-reach doctor --json` to see which
   backend serves each platform right now.
 
   NOT for: 写报告/数据分析/翻译等内容加工（本 skill 只负责从互联网获取内容）；
@@ -47,8 +47,8 @@ metadata:
 ## 常驻规则（全程适用）
 
 1. **动手前先体检**：多后端/登录态平台（小红书/Reddit/B站/Twitter/Facebook/Instagram）先跑
-   `agent-reach doctor --json`，按各平台 `active_backend` 字段选命令组。
-2. **声明你在用什么**：开始干活前说一句「使用 agent-reach 的 X 平台 / Y 后端」。
+   `bilibili-reach doctor --json`，按各平台 `active_backend` 字段选命令组。
+2. **声明你在用什么**：开始干活前说一句「使用 bilibili-reach 的 X 平台 / Y 后端」。
 3. **失败按 references 里的重试链处理**，不要瞎猜命令。
 4. **全网调研类任务**：组合多平台（Exa 搜索 + Twitter/Reddit 看讨论 + 小红书/B站看中文场景），并行收集再汇总。
 5. **版本提醒按你自己的维护流程来**：不要把用户指回旧仓库或旧的在线更新地址。
@@ -80,7 +80,7 @@ gh search repos "query" --sort stars --limit 10
 yt-dlp --write-sub --skip-download -o "/tmp/%(id)s" "URL"
 
 # V2EX 热门
-curl -s "https://www.v2ex.com/api/topics/hot.json" -H "User-Agent: agent-reach/1.0"
+curl -s "https://www.v2ex.com/api/topics/hot.json" -H "User-Agent: bilibili-reach/1.0"
 
 # B站搜索（bili-cli，无需登录）
 bili search "query" --type video -n 5
@@ -110,12 +110,12 @@ opencli instagram user USERNAME -f yaml        # 读指定用户最近帖子
 
 ```bash
 # 检查可用 channel 与每个平台当前激活的后端
-agent-reach doctor --json
+bilibili-reach doctor --json
 ```
 
 ## 工作区规则
 
-**不要在 agent workspace 创建文件。** 使用 `/tmp/` 存放临时输出，`~/.agent-reach/` 存放持久数据。
+**不要在 agent workspace 创建文件。** 使用 `/tmp/` 存放临时输出，`~/.bilibili-reach/` 存放持久数据。
 
 ## 详细文档
 

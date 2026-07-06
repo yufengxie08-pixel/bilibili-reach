@@ -10,7 +10,7 @@ description: >
   Xiaoyuzhou Podcast, LinkedIn/jobs/recruiting, V2EX, Xueqiu (stocks), RSS.
 
   15 platforms, multi-backend routing (OpenCLI / per-platform CLIs / APIs).
-  Zero config for 6 channels. Run `agent-reach doctor --json` to see which
+  Zero config for 6 channels. Run `bilibili-reach doctor --json` to see which
   backend serves each platform right now.
 
   NOT for: writing reports/analysis/translation (this skill only FETCHES
@@ -29,9 +29,9 @@ these platforms — do not invent your own approach.**
 ## Standing rules (apply for the whole session)
 
 1. **Health-check before acting**: for multi-backend/login-backed platforms (XiaoHongShu /
-   Reddit / Bilibili / Twitter / Facebook / Instagram), run `agent-reach doctor --json` first and
+   Reddit / Bilibili / Twitter / Facebook / Instagram), run `bilibili-reach doctor --json` first and
    pick the command group matching each platform's `active_backend`.
-2. **Announce what you use**: say "using agent-reach, platform X via backend Y"
+2. **Announce what you use**: say "using bilibili-reach, platform X via backend Y"
    before starting.
 3. **On failure, follow the retry chains in references/** — never guess
    commands.
@@ -68,7 +68,7 @@ gh search repos "query" --sort stars --limit 10
 yt-dlp --write-sub --skip-download -o "/tmp/%(id)s" "URL"
 
 # V2EX hot topics
-curl -s "https://www.v2ex.com/api/topics/hot.json" -H "User-Agent: agent-reach/1.0"
+curl -s "https://www.v2ex.com/api/topics/hot.json" -H "User-Agent: bilibili-reach/1.0"
 
 # Bilibili search (bili-cli, no login needed)
 bili search "query" --type video -n 5
@@ -98,13 +98,13 @@ opencli instagram user USERNAME -f yaml        # recent posts from one user
 
 ```bash
 # Channel availability + which backend serves each platform
-agent-reach doctor --json
+bilibili-reach doctor --json
 ```
 
 ## Workspace rules
 
 **Never create files in the agent workspace.** Use `/tmp/` for temporary
-output and `~/.agent-reach/` for persistent data.
+output and `~/.bilibili-reach/` for persistent data.
 
 ## Detailed references
 

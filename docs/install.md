@@ -17,7 +17,7 @@ Install Bilibili Reach and all upstream tools so your user's agent has full inte
 When fixing issues, stay within these limits:
 
 - **DO NOT** run commands with `sudo` unless the user explicitly approved
-- **DO NOT** modify system files outside `~/.agent-reach/`
+- **DO NOT** modify system files outside `~/.bilibili-reach/`
 - **DO NOT** install packages not listed in this guide
 - **DO NOT** disable firewalls, security settings, or system protections
 - **DO NOT** clone repos, create files, or run commands inside the agent workspace / working directory
@@ -25,14 +25,14 @@ When fixing issues, stay within these limits:
 
 ### 📁 Directory Rules
 
-All Agent Reach files go in dedicated directories — **never in the agent workspace**:
+All Bilibili Reach files go in dedicated directories — **never in the agent workspace**:
 
 | Purpose | Directory | Example |
 |---------|-----------|---------|
-| Config & tokens | `~/.agent-reach/` | `~/.agent-reach/config.json` |
-| Upstream tool repos | `~/.agent-reach/tools/` | `~/.agent-reach/tools/xiaoyuzhou/` |
+| Config & tokens | `~/.bilibili-reach/` | `~/.bilibili-reach/config.json` |
+| Upstream tool repos | `~/.bilibili-reach/tools/` | `~/.bilibili-reach/tools/xiaoyuzhou/` |
 | Temporary files | `/tmp/` | `/tmp/yt-dlp-output/` |
-| Skills | `~/.openclaw/skills/agent-reach/` | SKILL.md |
+| Skills | `~/.openclaw/skills/bilibili-reach/` | SKILL.md |
 
 **Why?** If you clone repos or create files in the workspace, it pollutes the user's project directory and can break their agent over time. Keep the workspace clean.
 
@@ -41,14 +41,14 @@ All Agent Reach files go in dedicated directories — **never in the agent works
 ```bash
 # 推荐：pipx（最省心）
 pipx install .
-agent-reach install --env=auto
+bilibili-reach install --env=auto
 
 # 如果你的 Python 来自 Homebrew / 遇到 PEP 668（externally-managed-environment）
 # 用虚拟环境安装：
-python3 -m venv ~/.agent-reach-venv
-source ~/.agent-reach-venv/bin/activate
+python3 -m venv ~/.bilibili-reach-venv
+source ~/.bilibili-reach-venv/bin/activate
 pip install .
-agent-reach install --env=auto
+bilibili-reach install --env=auto
 ```
 
 > 💡 **Windows / Microsoft Store Python alias?**
@@ -58,10 +58,10 @@ agent-reach install --env=auto
 >
 > PowerShell 示例：
 > ```powershell
-> py -3 -m venv $env:USERPROFILE\.agent-reach-venv
-> $env:USERPROFILE\.agent-reach-venv\Scripts\Activate.ps1
+> py -3 -m venv $env:USERPROFILE\.bilibili-reach-venv
+> $env:USERPROFILE\.bilibili-reach-venv\Scripts\Activate.ps1
 > python -m pip install .
-> agent-reach install --env=auto
+> bilibili-reach install --env=auto
 > ```
 
 This installs core infrastructure (gh CLI, Node.js, mcporter, Exa search, yt-dlp config) and activates these zero-config channels:
@@ -74,8 +74,8 @@ This installs core infrastructure (gh CLI, Node.js, mcporter, Exa search, yt-dlp
 **Safe mode / Dry run:**
 
 ```bash
-agent-reach install --env=auto --safe      # Check only, no auto-install
-agent-reach install --env=auto --dry-run   # Preview what would be done
+bilibili-reach install --env=auto --safe      # Check only, no auto-install
+bilibili-reach install --env=auto --dry-run   # Preview what would be done
 ```
 
 ### Step 2: Ask the user which optional channels they want
@@ -102,16 +102,16 @@ After installing the basics, **ask the user** which additional channels they nee
 Based on the user's choice, run:
 
 ```bash
-agent-reach install --env=auto --channels=opencli,xiaohongshu   # Example: desktop user chose XHS (OpenCLI-backed)
-agent-reach install --env=auto --channels=facebook,instagram    # Example: desktop user chose Meta social channels
-agent-reach install --env=auto --channels=all              # User wants everything
+bilibili-reach install --env=auto --channels=opencli,xiaohongshu   # Example: desktop user chose XHS (OpenCLI-backed)
+bilibili-reach install --env=auto --channels=facebook,instagram    # Example: desktop user chose Meta social channels
+bilibili-reach install --env=auto --channels=all              # User wants everything
 ```
 
 Supported channel names: `opencli`, `twitter`, `xiaoyuzhou`, `xueqiu`, `xiaohongshu`, `reddit`, `facebook`, `instagram`, `bilibili`, `linkedin`, `all`
 
 ### Step 3: Fix what's broken
 
-Run `agent-reach doctor` and check the output.
+Run `bilibili-reach doctor` and check the output.
 
 Try to get as many channels to ✅ as possible. If something failed during install or shows as ❌/⚠️ in doctor, diagnose the problem and try to fix it — but stay within the boundaries above. If a fix requires elevated permissions or system changes, ask the user first.
 
@@ -133,13 +133,13 @@ Some channels need credentials only the user can provide. Based on the doctor ou
 > 3. 点击插件 → Export → Header String
 > 4. 把导出的字符串发给 Agent
 >
-> **本地电脑用户**也可以用 `agent-reach configure --from-browser chrome` 一键自动提取（支持 Twitter + 小红书 + 雪球）。OpenCLI 平台（Reddit、小红书桌面后端、Facebook、Instagram）优先复用 Chrome 登录态，不需要把 Cookie 发给 Agent。
+> **本地电脑用户**也可以用 `bilibili-reach configure --from-browser chrome` 一键自动提取（支持 Twitter + 小红书 + 雪球）。OpenCLI 平台（Reddit、小红书桌面后端、Facebook、Instagram）优先复用 Chrome 登录态，不需要把 Cookie 发给 Agent。
 
 **Twitter search & posting:**
 > "To unlock Twitter search, I need your Twitter cookies. Install the Cookie-Editor Chrome extension, go to x.com/twitter.com, click the extension → Export → Header String, and paste it to me."
 
 ```bash
-agent-reach configure twitter-cookies "PASTED_STRING"
+bilibili-reach configure twitter-cookies "PASTED_STRING"
 ```
 
 > **代理说明（中国大陆等需要翻墙的网络环境）：**
@@ -147,7 +147,7 @@ agent-reach configure twitter-cookies "PASTED_STRING"
 > twitter-cli 和 rdt-cli 使用 Python，在需要代理的网络环境下可通过环境变量配置代理。
 >
 > **你（Agent）需要做的：**
-> 1. 确认用户配了代理：`agent-reach configure proxy http://user:pass@ip:port`
+> 1. 确认用户配了代理：`bilibili-reach configure proxy http://user:pass@ip:port`
 > 2. 设置环境变量：`export HTTP_PROXY="..." HTTPS_PROXY="..."`
 > 3. Agent Reach 会自动处理剩下的，不需要用户做额外操作
 >
@@ -164,7 +164,7 @@ rdt login   # 自动提取浏览器 Cookie；服务器无浏览器时按 doctor 
 
 > 中国大陆访问 Reddit 需要代理；服务器 IP 被风控时可配住宅代理（如 https://webshare.io，约 $1/月）：
 > ```bash
-> agent-reach configure proxy http://user:pass@ip:port
+> bilibili-reach configure proxy http://user:pass@ip:port
 > ```
 
 **XiaoHongShu / 小红书（多后端，按环境选）:**
@@ -173,7 +173,7 @@ rdt login   # 自动提取浏览器 Cookie；服务器无浏览器时按 doctor 
 > "小红书走 OpenCLI——复用你浏览器里的登录态，平时刷过小红书就直接能用，零配置。"
 
 ```bash
-agent-reach install --channels opencli
+bilibili-reach install --channels opencli
 ```
 
 > 装完后引导用户做唯一一步手动操作（Chrome 安全限制，无法代劳）：
@@ -182,7 +182,7 @@ agent-reach install --channels opencli
 > 3. 运行 `opencli doctor` 验证（显示 Extension: connected 即成功）
 >
 > **服务器 / 无桌面环境（xiaohongshu-mcp）：**
-> 1. 从 https://github.com/xpzouying/xiaohongshu-mcp/releases 下载对应平台 binary 到 `~/.agent-reach/tools/`
+> 1. 从 https://github.com/xpzouying/xiaohongshu-mcp/releases 下载对应平台 binary 到 `~/.bilibili-reach/tools/`
 > 2. 启动服务（首次运行会自动下载约 150MB 无头浏览器，耐心等完成）
 > 3. 让用户扫码登录（agent 调 `get_login_qrcode` 工具取二维码）
 > 4. 接入：`mcporter config add xiaohongshu http://localhost:18060/mcp`
@@ -190,14 +190,14 @@ agent-reach install --channels opencli
 >
 > **存量用户（xhs-cli）：** 已装好的 xhs-cli 继续作为备选后端工作（上游 2026-03 起停更，不推荐新装）。`xhs login` 自动提取浏览器 Cookie；失败时用 Cookie-Editor 导出后：
 > ```bash
-> agent-reach configure xhs-cookies "key1=val1; key2=val2; ..."
+> bilibili-reach configure xhs-cookies "key1=val1; key2=val2; ..."
 > ```
 
 **Facebook / Instagram（桌面 OpenCLI）:**
 > 这两个平台走 OpenCLI：复用用户自己的 Chrome 登录态，不保存账号密码，不走 Meta Graph API 审批流。服务器/无桌面环境不推荐支持。
 
 ```bash
-agent-reach install --channels facebook,instagram
+bilibili-reach install --channels facebook,instagram
 ```
 
 > 装完后：
@@ -219,7 +219,7 @@ agent-reach install --channels facebook,instagram
 > "雪球需要登录后的 Cookie。请先在 Chrome 里登录 xueqiu.com，然后运行："
 
 ```bash
-agent-reach configure --from-browser chrome
+bilibili-reach configure --from-browser chrome
 ```
 
 > Cookie 会随其他平台一起自动提取。
@@ -230,7 +230,7 @@ agent-reach configure --from-browser chrome
 脚本已随 Agent Reach 自动安装，用户只需提供 Key：
 
 ```bash
-agent-reach configure groq-key gsk_xxxxx
+bilibili-reach configure groq-key gsk_xxxxx
 ```
 
 > **获取 Groq API Key（免费、无需信用卡、30 秒搞定）：**
@@ -242,7 +242,7 @@ agent-reach configure groq-key gsk_xxxxx
 > **使用方式：**
 > 用户发一个小宇宙链接给 Agent，Agent 自动调用：
 > ```bash
-> bash ~/.agent-reach/tools/xiaoyuzhou/transcribe.sh https://www.xiaoyuzhoufm.com/episode/xxxxx
+> bash ~/.bilibili-reach/tools/xiaoyuzhou/transcribe.sh https://www.xiaoyuzhoufm.com/episode/xxxxx
 > ```
 >
 > 自动下载音频 → 转码切片 → Groq Whisper 转录 → 输出完整中文文字稿。
@@ -294,7 +294,7 @@ pip install linkedin-scraper-mcp
 
 ### Step 4: Final check
 
-Run `agent-reach doctor` one final time and report the results to your user.
+Run `bilibili-reach doctor` one final time and report the results to your user.
 
 ### Step 5: Set up daily monitoring (OpenClaw only)
 
@@ -305,7 +305,7 @@ If you are running inside **OpenClaw**, ask your user:
 If the user agrees, create a **cron job** (daily, `sessionTarget: "isolated"`, `delivery: "announce"`) with this task:
 
 ```
-运行 agent-reach watch 命令。
+运行 bilibili-reach watch 命令。
 如果输出包含"全部正常"，不需要通知用户，静默结束。
 如果输出包含问题（❌ ⚠️）或新版本（🆕），把完整报告发给用户，并建议修复方案。
 如果有新版本可用，按你自己的仓库维护流程决定是否升级。
@@ -319,17 +319,17 @@ If the user wants a different agent to handle it, let them choose.
 
 | Command | What it does |
 |---------|-------------|
-| `agent-reach install --env=auto` | Install core channels (lightweight, zero-config) |
-| `agent-reach install --env=auto --channels=twitter,xiaohongshu` | Install core + optional channels |
-| `agent-reach install --env=auto --channels=all` | Install everything |
-| `agent-reach install --env=auto --safe` | Safe setup (no auto system changes) |
-| `agent-reach install --env=auto --dry-run` | Preview what would be done |
-| `agent-reach doctor` | Show channel status |
-| `agent-reach watch` | Quick health + update check (for scheduled tasks) |
-| `agent-reach check-update` | Check for new versions |
-| `agent-reach configure twitter-cookies "..."` | Unlock Twitter search + posting |
-| `agent-reach configure proxy URL` | 保存代理地址（Agent 访问 Reddit/Twitter 等受限网络时读取它设置 HTTP_PROXY/HTTPS_PROXY，不是自动解锁开关） |
-| `agent-reach configure groq-key gsk_xxx` | Unlock Xiaoyuzhou podcast transcription |
+bilibili-reach install --env=auto` | Install core channels (lightweight, zero-config) |
+| `bilibili-reach install --env=auto --channels=twitter,xiaohongshu` | Install core + optional channels |
+| `bilibili-reach install --env=auto --channels=all` | Install everything |
+| `bilibili-reach install --env=auto --safe` | Safe setup (no auto system changes) |
+| `bilibili-reach install --env=auto --dry-run` | Preview what would be done |
+| `bilibili-reach doctor` | Show channel status |
+| `bilibili-reach watch` | Quick health + update check (for scheduled tasks) |
+| `bilibili-reach check-update` | Check for new versions |
+| `bilibili-reach configure twitter-cookies "..."` | Unlock Twitter search + posting |
+| `bilibili-reach configure proxy URL` | 保存代理地址（Agent 访问 Reddit/Twitter 等受限网络时读取它设置 HTTP_PROXY/HTTPS_PROXY，不是自动解锁开关） |
+| `bilibili-reach configure groq-key gsk_xxx` | Unlock Xiaoyuzhou podcast transcription |
 
 After installation, use upstream tools directly. See SKILL.md for the full command reference:
 
@@ -345,8 +345,8 @@ After installation, use upstream tools directly. See SKILL.md for the full comma
 | Web | `curl` + Jina | `curl -s "https://r.jina.ai/URL"` |
 | Exa Search | `mcporter` | `mcporter call 'exa.web_search_exa(...)'` |
 | 小红书 | `opencli`（服务器 `mcporter`） | `opencli xiaohongshu search "query" -f yaml` |
-| 小宇宙播客 | `transcribe.sh` | `bash ~/.agent-reach/tools/xiaoyuzhou/transcribe.sh <URL>` |
+| 小宇宙播客 | `transcribe.sh` | `bash ~/.bilibili-reach/tools/xiaoyuzhou/transcribe.sh <URL>` |
 | LinkedIn | `mcporter` | `mcporter call 'linkedin.get_person_profile(...)'` |
 | RSS | `feedparser` | `python3 -c "import feedparser; ..."` |
 
-> 多后端平台以 `agent-reach doctor --json` 的 `active_backend` 为准。
+> 多后端平台以 `bilibili-reach doctor --json` 的 `active_backend` 为准。

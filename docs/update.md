@@ -10,7 +10,7 @@ Use this document as your private update guide for the project.
 
 ### ⚠️ Workspace Rules
 
-**Never create files, clone repos, or run commands in the agent workspace.** Use `/tmp/` for temporary work and `~/.agent-reach/` for persistent data.
+**Never create files, clone repos, or run commands in the agent workspace.** Use `/tmp/` for temporary work and `~/.bilibili-reach/` for persistent data.
 
 ### Goal
 
@@ -19,7 +19,7 @@ Update Bilibili Reach to the latest version, refresh upstream tools, migrate fro
 ### Step 1: Check current version
 
 ```bash
-agent-reach check-update
+bilibili-reach check-update
 ```
 
 If it says "已是最新版本", skip to Step 4 (verify). Otherwise continue.
@@ -33,7 +33,7 @@ pip install --upgrade .
 > If pip complains about `externally-managed-environment` (PEP 668), the user
 > originally installed via pipx or a venv — use the matching command:
 > `pipx install --force .`
-> or activate `~/.agent-reach-venv` first.
+> or activate `~/.bilibili-reach-venv` first.
 
 ### Step 3: Refresh upstream tools
 
@@ -62,7 +62,7 @@ browser session. Offer it once:
 
 > "这次更新引入了 OpenCLI 后端（复用你的浏览器登录态，小红书/Reddit 零配置）。要装吗？装完只需你在 Chrome 商店点一次『添加扩展』。"
 
-If yes: `agent-reach install --channels opencli` and guide them through the
+If yes: `bilibili-reach install --channels opencli` and guide them through the
 extension click. If no, everything keeps working on existing backends.
 
 ### Step 4: Coexistence (DO NOT uninstall old tools)
@@ -75,14 +75,14 @@ them automatically — removal is the user's call, not yours.
 ### Step 5: Verify
 
 ```bash
-agent-reach version
-agent-reach doctor
+bilibili-reach version
+bilibili-reach doctor
 ```
 
-Running `agent-reach doctor` (text mode) also makes sure an Agent Reach skill
+Running `bilibili-reach doctor` (text mode) also makes sure a Bilibili Reach skill
 exists in detected agent skill directories. If the user already has a skill
 there, doctor preserves it instead of overwriting local customizations. Use
-`agent-reach skill --install` when you explicitly want to refresh the bundled
+`bilibili-reach skill --install` when you explicitly want to refresh the bundled
 skill files.
 
 Check the doctor output:
@@ -97,7 +97,7 @@ Check the doctor output:
 
 Tell the user:
 
-1. What version they're on now (`agent-reach version`)
+1. What version they're on now (`bilibili-reach version`)
 2. How many channels are available, and which backend each multi-backend
    platform is using (from doctor)
 3. Anything that needs their action (e.g. Chrome extension click, `xhs login`,
