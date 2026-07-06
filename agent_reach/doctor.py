@@ -52,7 +52,7 @@ def format_report(results: Dict[str, dict]) -> str:
         escape = lambda x: x
 
     lines = []
-    lines.append("[bold cyan]Agent Reach 状态[/bold cyan]")
+    lines.append("[bold cyan]Bilibili Reach 状态[/bold cyan]")
     lines.append("[cyan]" + "=" * 40 + "[/cyan]")
     lines.append("图例：[green]✅[/green] 可用  [yellow][!][/yellow] 已装但需配置/登录  [red][X][/red] 未安装")
 

@@ -1,4 +1,4 @@
-# Agent Reach — Update Guide
+# Bilibili Reach — Update Guide
 
 ## For Humans
 
@@ -14,7 +14,7 @@ Use this document as your private update guide for the project.
 
 ### Goal
 
-Update Agent Reach to the latest version, refresh upstream tools, migrate from retired backends, and verify everything works. The user should not need to do anything manually (except things only a human can do, like clicking a browser-extension install button).
+Update Bilibili Reach to the latest version, refresh upstream tools, migrate from retired backends, and verify everything works. The user should not need to do anything manually (except things only a human can do, like clicking a browser-extension install button).
 
 ### Step 1: Check current version
 

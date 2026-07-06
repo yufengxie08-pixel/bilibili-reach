@@ -1,4 +1,4 @@
-<h1 align="center">👁️ Agent Reach</h1>
+<h1 align="center">👁️ Bilibili Reach</h1>
 
 <p align="center">
   <strong>Give your AI Agent one-click access to the entire internet</strong>
@@ -21,7 +21,7 @@
 
 ---
 
-## Why Agent Reach?
+## Why Bilibili Reach?
 
 AI Agents can already access the internet — but "can go online" is barely the start.
 

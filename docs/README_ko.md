@@ -1,4 +1,4 @@
-<h1 align="center">👁️ Agent Reach</h1>
+<h1 align="center">👁️ Bilibili Reach</h1>
 
 <p align="center">
   <strong>AI 에이전트가 인터넷 전체에 접근할 수 있도록 한 번에 설정해 드립니다</strong>
@@ -15,7 +15,7 @@
 
 ---
 
-## Agent Reach가 필요한 이유
+## Bilibili Reach가 필요한 이유
 
 AI 에이전트는 이미 인터넷에 접근할 수 있습니다 — 하지만 "인터넷에 접속할 수 있다"는 것은 시작에 불과합니다.
 

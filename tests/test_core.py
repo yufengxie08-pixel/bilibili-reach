@@ -26,4 +26,4 @@ class TestAgentReach:
     def test_doctor_report(self, eyes):
         report = eyes.doctor_report()
         assert isinstance(report, str)
-        assert "Agent Reach" in report
+        assert "Bilibili Reach" in report

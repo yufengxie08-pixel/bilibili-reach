@@ -1,4 +1,4 @@
-<h1 align="center">👁️ Agent Reach</h1>
+<h1 align="center">👁️ Bilibili Reach</h1>
 
 <p align="center">
   <strong>AIエージェントにワンクリックでインターネット全体へのアクセスを</strong>
@@ -15,7 +15,7 @@
 
 ---
 
-## なぜ Agent Reach？
+## なぜ Bilibili Reach？
 
 AIエージェントはすでにインターネットにアクセスできます。しかし「ネットに繋がる」はほんの始まりに過ぎません。
 

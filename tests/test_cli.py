@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""Tests for Agent Reach CLI."""
+"""Tests for Bilibili Reach CLI."""
 
 import shutil
 import subprocess
@@ -33,14 +33,14 @@ class TestCLI:
         with patch("sys.argv", ["agent-reach", "doctor"]):
             main()
         captured = capsys.readouterr()
-        assert "Agent Reach" in captured.out
+        assert "Bilibili Reach" in captured.out
         assert "✅" in captured.out
 
     def test_doctor_preserves_existing_skill_install(self, monkeypatch, tmp_path, capsys):
         skill_dir = tmp_path / ".agents" / "skills" / "agent-reach"
         skill_dir.mkdir(parents=True)
         skill_file = skill_dir / "SKILL.md"
-        custom_content = "# custom Agent Reach skill\n"
+        custom_content = "# custom Bilibili Reach skill\n"
         skill_file.write_text(custom_content, encoding="utf-8")
 
         monkeypatch.setattr(

@@ -1,4 +1,4 @@
-# Agent Reach — Installation Guide
+# Bilibili Reach — Installation Guide
 
 ## For Humans
 
@@ -10,7 +10,7 @@ Use this document as your private install guide for the project.
 
 ### Goal
 
-Install Agent Reach and all upstream tools so your user's agent has full internet access. After installation, you'll use the upstream tools directly (OpenCLI, twitter-cli, bili-cli, rdt-cli, yt-dlp, mcporter, gh CLI, etc.) — Agent Reach is the selector, installer, health checker and router, never a wrapper.
+Install Bilibili Reach and all upstream tools so your user's agent has full internet access. After installation, you'll use the upstream tools directly (OpenCLI, twitter-cli, bili-cli, rdt-cli, yt-dlp, mcporter, gh CLI, etc.) — Bilibili Reach is the selector, installer, health checker and router, never a wrapper.
 
 ### ⚠️ Boundaries
 

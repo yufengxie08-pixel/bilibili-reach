@@ -522,7 +522,7 @@ INDEX_HTML = """<!doctype html>
           <button class="primary" id="saveConfigBtn">保存配置</button>
           <button class="secondary" id="refreshStatusBtn">刷新状态</button>
         </div>
-        <p class="small" id="configHint">密钥只写入本机的 <code>~/.agent-reach/config.yaml</code>。</p>
+        <p class="small" id="configHint">密钥只写入本机的 <code>~/.bilibili-reach/config.yaml</code>。</p>
       </div>
     </section>
   </div>
