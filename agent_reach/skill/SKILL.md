@@ -1,5 +1,5 @@
 ---
-name: agent-reach
+name: bilibili-reach
 description: >
   MUST USE when user wants to 调研/research/搜索/search/查/找/look up anything
   on the internet — e.g. 全网调研 X / 帮我调研一下 X / 查一下 X / 搜搜 X /
@@ -37,10 +37,10 @@ triggers:
   - finance: 雪球/股票/stock/xueqiu/行情/基金
 metadata:
   openclaw:
-    homepage: https://localhost/agent-reach
+    homepage: https://localhost/bilibili-reach
 ---
 
-# Agent Reach — 互联网能力路由器
+# Bilibili Reach — 互联网能力路由器
 
 15 平台、多后端。**本 skill 存在时必须用它访问这些平台，不要自己发明方案。**
 

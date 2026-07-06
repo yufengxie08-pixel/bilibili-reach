@@ -1,5 +1,5 @@
 ---
-name: agent-reach
+name: bilibili-reach
 description: >
   MUST USE when user wants to research/search/look up/find anything on the
   internet — e.g. "research this topic", "do a deep dive on X", "search the
@@ -18,10 +18,10 @@ description: >
   that already have a dedicated skill installed (prefer that skill).
 metadata:
   openclaw:
-    homepage: https://localhost/agent-reach
+    homepage: https://localhost/bilibili-reach
 ---
 
-# Agent Reach — internet capability router
+# Bilibili Reach — internet capability router
 
 15 platforms, multiple backends each. **When this skill exists, use it for
 these platforms — do not invent your own approach.**
